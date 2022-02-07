@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { editTask, toggleTask } from "../js/Actions/actions";
 import { FaEdit } from "react-icons/fa";
@@ -7,17 +7,13 @@ import { NavLink } from "react-router-dom";
 const mapDispatchToProps = (dispatch) => {
   return {
     editToDo: (task) => dispatch(editTask(task)),
-    toggleToDo: (id) => dispatch(toggleTask(id)),
+    toggleToDo: (task) => dispatch(toggleTask(task)),
   };
 };
 
 const Task = (props) => {
-  console.log("props of Task", props);
-  const [isDone, setIsDone] = useState(props.task.isDone);
-
-  const handleToggle = (taskId) => {
-    setIsDone(!isDone);
-    props.toggleToDo({ id: taskId });
+  const handleToggle = (isDone, id) => {
+    props.toggleToDo({ id, isDone });
   };
 
   const handleEdit = (newDescription, id) => {
@@ -41,15 +37,15 @@ const Task = (props) => {
           onChange={(e) => handleEdit(e.target.value, props.task.id)}
         />
       </div>
-      <button
+      <input
+        checked={props.task.isDone}
+        type="checkbox"
         className={
           "btn btn-sm ml-auto " +
-          (isDone ? "btn-success" : "btn-outline-success")
+          (props.task.isDone ? "btn-success" : "btn-outline-success")
         }
-        onClick={() => handleToggle(props.task.id)}
-      >
-        &#x2713;
-      </button>
+        onChange={(e) => handleToggle(e.target.checked, props.task.id)}
+      />
     </li>
   );
 };

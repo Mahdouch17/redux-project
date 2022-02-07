@@ -17,6 +17,7 @@ const ListTask = ({ tasks, match }) => {
     default:
       filteredTasks = tasks;
   }
+  console.log(filteredTasks)
   if (filteredTasks.length === 0) {
     return (
       <>

@@ -26,7 +26,7 @@ const rootReducers = (state = initialState, action) => {
     case TOGGLE_TASK:
       return {
         tasks: state.tasks.map((task) => {
-          if (task.id === action.payload) {
+          if (task.id !== action.payload.id) {
             return task;
           }
           return {

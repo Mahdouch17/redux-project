@@ -14,9 +14,9 @@ export const editTask = (newTask) => {
   };
 };
 
-export const toggleTask = (taskId) => {
+export const toggleTask = (task) => {
   return {
     type: TOGGLE_TASK,
-    payload: taskId,
+    payload: task,
   };
 };
