@@ -1,18 +1,32 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { editTask, toggleTask } from "../js/Actions/actions";
 import { FaEdit } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 
-const Task = ({ task, onToggleIsDone, handleEdit }) => {
-  const [isDone, setIsDone] = useState(task.isDone);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    editToDo: (task) => dispatch(editTask(task)),
+    toggleToDo: (id) => dispatch(toggleTask(id)),
+  };
+};
 
-  const toggleIsDone = () => {
+const Task = (props) => {
+  console.log("props of Task", props);
+  const [isDone, setIsDone] = useState(props.task.isDone);
+
+  const handleToggle = (taskId) => {
     setIsDone(!isDone);
-    onToggleIsDone(task.id);
+    props.toggleToDo({ id: taskId });
   };
 
-  const onHandleEdit = (e) => {
-    handleEdit(e.target.value, task.id);
+  const handleEdit = (newDescription, id) => {
+    props.editToDo({
+      id,
+      description: newDescription,
+    });
   };
+
   return (
     <li className="list-group-item d-flex align-items-center justify-content-between">
       <div style={{ width: 800 }}>
@@ -22,9 +36,9 @@ const Task = ({ task, onToggleIsDone, handleEdit }) => {
         <input
           className="form-control"
           type="text"
-          id={task.id}
-          value={task.description}
-          onChange={onHandleEdit}
+          id={props.task.id}
+          value={props.task.description}
+          onChange={(e) => handleEdit(e.target.value, props.task.id)}
         />
       </div>
       <button
@@ -32,7 +46,7 @@ const Task = ({ task, onToggleIsDone, handleEdit }) => {
           "btn btn-sm ml-auto " +
           (isDone ? "btn-success" : "btn-outline-success")
         }
-        onClick={toggleIsDone}
+        onClick={() => handleToggle(props.task.id)}
       >
         &#x2713;
       </button>
@@ -40,4 +54,4 @@ const Task = ({ task, onToggleIsDone, handleEdit }) => {
   );
 };
 
-export default Task;
+export default connect(null, mapDispatchToProps)(Task);

@@ -1,26 +1,28 @@
 import React, { useState } from "react";
-import uniqueid from "uniqueid";
+import { connect } from "react-redux";
+import newId from "../utils/newId";
+import { addTask } from "../js/Actions/actions";
 
-const AddTask = ({ addTask, history }) => {
-  const [task, setTask] = useState({
-    description: "",
-  });
-  const handleTask = (e) => {
-    setTask((prevTask) => ({
-      ...prevTask,
-      [e.target.name]: e.target.value,
-    }));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToDo: (task) => dispatch(addTask(task)),
   };
+};
+
+const AddTask = (props) => {
+  
+  const [description, setDescription] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    let newTask = {
-      id: uniqueid(),
-      description: task.description,
+    props.addToDo({
+      id: newId(),
+      description,
       isDone: false,
-    };
-    addTask(newTask);
-    history.push("/");
+    });
+    props.history.push("/");
   };
+
   return (
     <section>
       <h1 className="m-3">Nouvelle tâche</h1>
@@ -32,8 +34,7 @@ const AddTask = ({ addTask, history }) => {
               type="text"
               className="form-control"
               name="description"
-              value={task.description}
-              onChange={handleTask}
+              onChange={(e) => setDescription(e.target.value)}
             />
           </div>
           <input type="submit" value={"Créer"} className="btn btn-primary" />
@@ -43,4 +44,4 @@ const AddTask = ({ addTask, history }) => {
   );
 };
 
-export default AddTask;
+export default connect(null, mapDispatchToProps)(AddTask);

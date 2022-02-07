@@ -1,7 +1,14 @@
 import React from "react";
+import { connect } from "react-redux";
 import Task from "./Task";
 
-const ListTask = ({ tasks, match, onToggleIsDone, handleEdit }) => {
+const mapStateToProps = (state) => {
+  return {
+    tasks: state.tasks,
+  };
+};
+
+const ListTask = ({ tasks, match }) => {
   let filteredTasks;
   switch (match.params.filter) {
     case "completed":
@@ -24,13 +31,8 @@ const ListTask = ({ tasks, match, onToggleIsDone, handleEdit }) => {
       <>
         <h1 className="m-3">Liste de tâches</h1>
         <ul className="list-group m-3">
-          {filteredTasks.map((task) => (
-            <Task
-              key={task.id}
-              task={task}
-              onToggleIsDone={onToggleIsDone}
-              handleEdit={handleEdit}
-            />
+          {tasks.map((task) => (
+            <Task key={task.id} task={task} />
           ))}
         </ul>
       </>
@@ -38,4 +40,4 @@ const ListTask = ({ tasks, match, onToggleIsDone, handleEdit }) => {
   }
 };
 
-export default ListTask;
+export default connect(mapStateToProps)(ListTask);
