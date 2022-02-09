@@ -1,24 +1,38 @@
 import React from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
+import { completedTasks } from "../js/Actions/actions";
 import Task from "./Task";
 
-const mapStateToProps = (state) => {
-  return {
-    tasks: state.tasks,
-  };
-};
+// const mapStateToProps = (state) => {
+//   return {
+//     tasks: state.tasks,
+//   };
+// };
 
-const ListTask = ({ tasks, match }) => {
-  let filteredTasks;
-  switch (match.params.filter) {
-    case "completed":
-      filteredTasks = tasks.filter((task) => task.isDone);
-      break;
-    default:
-      filteredTasks = tasks;
-  }
-  console.log(filteredTasks)
-  if (filteredTasks.length === 0) {
+const ListTask = () => {
+  const todos = useSelector((state) => state.tasks);
+  const filterTask = useSelector((state) => state.filter);
+  console.log("tasks", todos);
+  console.log("filter", filterTask);
+  const filteredTasks = (todos, filterTask) => {
+    if (filterTask !== "completed tasks") {
+      console.log("test1");
+      return todos;
+    } else return todos.filter((task) => task.isDone === true);
+  };
+
+  // switch (filterTask) {
+  //   case "completed tasks":
+  //     todos.filter((task) => task.isDone === true);
+  //     console.log('test')
+  //     break;
+  //   case "all tasks":
+  //   default:
+  //     return todos;
+  // }
+
+  const filteredTodos = filteredTasks(todos, filterTask);
+  if (filteredTodos.length === 0) {
     return (
       <>
         <h1 className="m-3">Liste de tâches</h1>
@@ -32,7 +46,7 @@ const ListTask = ({ tasks, match }) => {
       <>
         <h1 className="m-3">Liste de tâches</h1>
         <ul className="list-group m-3">
-          {tasks.map((task) => (
+          {filteredTodos.map((task) => (
             <Task key={task.id} task={task} />
           ))}
         </ul>
@@ -41,4 +55,4 @@ const ListTask = ({ tasks, match }) => {
   }
 };
 
-export default connect(mapStateToProps)(ListTask);
+export default ListTask;
