@@ -14,7 +14,7 @@ const NavBar = (props) => {
   console.log("props of navbar", props);
   const handleCompleted = (value) => {
     props.completedToDos({ filter: value });
-    console.log(value)
+    console.log('value in handleCompleted '+value)
   };
   return (
     <footer

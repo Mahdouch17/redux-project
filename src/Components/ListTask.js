@@ -15,10 +15,10 @@ const ListTask = () => {
   console.log("tasks", todos);
   console.log("filter", filterTask);
   const filteredTasks = (todos, filterTask) => {
-    if (filterTask !== "completed tasks") {
+    if (filterTask === "completed tasks") {
       console.log("test1");
-      return todos;
-    } else return todos.filter((task) => task.isDone === true);
+      return todos.filter((task) => task.isDone === true);
+    } else return todos;
   };
 
   // switch (filterTask) {
