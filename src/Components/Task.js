@@ -40,10 +40,6 @@ const Task = (props) => {
       <input
         checked={props.task.isDone}
         type="checkbox"
-        className={
-          "btn btn-sm ml-auto " +
-          (props.task.isDone ? "btn-success" : "btn-outline-success")
-        }
         onChange={(e) => handleToggle(e.target.checked, props.task.id)}
       />
     </li>

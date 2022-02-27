@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch) => {
 const NavBar = (props) => {
   console.log("props of navbar", props);
   const handleCompleted = (value) => {
-    props.completedToDos({ filter: value });
+    props.completedToDos(value);
     console.log('value in handleCompleted '+value)
   };
   return (
@@ -23,8 +23,7 @@ const NavBar = (props) => {
     >
       <div className="btn-group">
         <NavLink
-          onClick={(e)=>handleCompleted(e.target.getAttribute("value"))}
-          value={"all tasks"}
+          onClick={()=>handleCompleted("all tasks")}
           to="/"
           className="btn btn-outline-dark bg-light"
           exact
@@ -32,8 +31,7 @@ const NavBar = (props) => {
           <FaListAlt />
         </NavLink>
         <NavLink
-          onClick={(e)=>handleCompleted(e.target.getAttribute("value"))}
-          value={"completed tasks"}
+          onClick={()=>handleCompleted("completed tasks")}
           to="/completed"
           className="btn btn-outline-dark bg-light"
         >

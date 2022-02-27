@@ -13,9 +13,9 @@ const ListTask = () => {
   const todos = useSelector((state) => state.tasks);
   const filterTask = useSelector((state) => state.filter);
   console.log("tasks", todos);
-  console.log("filter", filterTask);
+  console.log("filterTask", filterTask);
   const filteredTasks = (todos, filterTask) => {
-    if (filterTask === "completed tasks") {
+    if (filterTask === 'completed tasks') {
       console.log("test1");
       return todos.filter((task) => task.isDone === true);
     } else return todos;
